@@ -1,0 +1,26 @@
+### Register User
+POST http://localhost:8080/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "firstname": "Volunteen",
+  "lastname": "One",
+  "email":  "communityconnect21@mail.com",
+  "password": "password",
+  "role":  "ADMIN"
+}
+
+### Authenticate User
+POST http://localhost:8080/api/v1/auth/authenticate
+Content-Type: application/json
+
+{
+  "email":  "communityconnect21@mail.com",
+  "password": "password"
+}
+
+> {% client.global.set("auth-token", response.body.access_token);  %}
+
+### Query the Demo endpoint
+GET http://localhost:8080/api/v1/demo-controller
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjb21tdW5pdHljb25uZWN0MjFAbWFpbC5jb20iLCJpYXQiOjE3MTIxOTg5MTQsImV4cCI6MTcxMjI4NTMxNH0.DWn_wii3beUPEuHM-4TOLIou80wwVkk_cypGcbQITow 
