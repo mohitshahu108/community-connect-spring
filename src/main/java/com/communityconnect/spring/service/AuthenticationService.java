@@ -1,15 +1,19 @@
 package com.communityconnect.spring.service;
 
 import com.communityconnect.spring.config.JwtService;
+import com.communityconnect.spring.model.Organization;
 import com.communityconnect.spring.model.Role;
 import com.communityconnect.spring.model.Token;
 import com.communityconnect.spring.model.TokenType;
 import com.communityconnect.spring.model.User;
-import com.communityconnect.spring.payload.AuthenticationRequest;
-import com.communityconnect.spring.payload.AuthenticationResponse;
-import com.communityconnect.spring.payload.RegisterRequest;
+import com.communityconnect.spring.model.Volunteer;
+import com.communityconnect.spring.payload.request.AuthenticationRequest;
+import com.communityconnect.spring.payload.response.AuthenticationResponse;
+import com.communityconnect.spring.payload.response.RegisterRequest;
+import com.communityconnect.spring.repository.OrganizationRepository;
 import com.communityconnect.spring.repository.TokenRepository;
 import com.communityconnect.spring.repository.UserRepository;
+import com.communityconnect.spring.repository.VolunteerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,6 +33,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationService {
   private final UserRepository repository;
+  private final VolunteerRepository volunteerRepository;
+  private final OrganizationRepository organizationRepository;
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
@@ -46,6 +52,22 @@ public class AuthenticationService {
     var jwtToken = jwtService.generateToken(user);
     var refreshToken = jwtService.generateRefreshToken(user);
     saveUserToken(savedUser, jwtToken);
+    
+    if (request.getRole().equals(Role.VOLUNTEER)) {
+      Volunteer volunteer = Volunteer.builder()
+          .firstname(request.getFirstname())
+          .lastname(request.getLastname())
+          .user(user)
+          .build();
+      volunteerRepository.save(volunteer);
+    } else if (request.getRole().equals(Role.ORGANIZATION)) {
+      Organization organization = Organization.builder()
+          .name(user.getFirstname() + user.getLastname())
+          .build();
+          organizationRepository.save(organization);
+    }
+    
+
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
             .refreshToken(refreshToken)

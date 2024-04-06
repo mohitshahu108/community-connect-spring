@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.communityconnect.spring.model.User;
-import com.communityconnect.spring.payload.ChangePasswordRequest;
+import com.communityconnect.spring.payload.request.ChangePasswordRequest;
 import com.communityconnect.spring.repository.UserRepository;
 
 import java.security.Principal;

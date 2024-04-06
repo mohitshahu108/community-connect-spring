@@ -1,0 +1,27 @@
+### Register User
+POST http://localhost:8080/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "firstname": "u1",
+  "lastname": "One",
+  "email":  "u1@mail.com",
+  "password": "password",
+  "role":  "VOLUNTEER"
+}
+
+### Register User
+POST http://localhost:8080/api/v1/auth/authenticate
+Content-Type: application/json
+
+{
+  "email":  "u1@mail.com",
+  "password": "password"
+}
+
+### Get All Volunteers 
+GET  http://localhost:8080/api/v1/volunteers
+Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1MUBtYWlsLmNvbSIsImlhdCI6MTcxMjQwMDgyMiwiZXhwIjoxNzEyNDg3MjIyfQ.hlTubzrtO-s43h8bwS6bM8glAMiAcASGKGwTdYl8oGs
+### Get Volunteer by id 
+GET  http://localhost:8080/api/v1/volunteers/1
+Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1MUBtYWlsLmNvbSIsImlhdCI6MTcxMjQwMDgyMiwiZXhwIjoxNzEyNDg3MjIyfQ.hlTubzrtO-s43h8bwS6bM8glAMiAcASGKGwTdYl8oGs

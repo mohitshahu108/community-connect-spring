@@ -4,17 +4,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 
-// TODO: remove permission functionality
 @RequiredArgsConstructor
 public enum Permission {
-    ADMIN_READ("admin:read"),
-    ADMIN_UPDATE("admin:update"),
-    ADMIN_CREATE("admin:create"),
-    ADMIN_DELETE("admin:delete"),
-    MANAGER_READ("management:read"),
-    MANAGER_UPDATE("management:update"),
-    MANAGER_CREATE("management:create"),
-    MANAGER_DELETE("management:delete");
+
+    PROJECT_READ("project:read"),
+    PROJECT_UPDATE("project:update"),
+    PROJECT_CREATE("project:create"),
+    PROJECT_DELETE("project:delete");
 
     @Getter
     private final String permission;

@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -22,12 +24,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_user")
+@Table(name = "_user", uniqueConstraints = {
+  @UniqueConstraint(columnNames = "email")
+})
 public class User implements UserDetails {
 
   @Id
   @GeneratedValue
-  private Integer id;
+  private Long id;
   private String firstname;
   private String lastname;
   private String email;
@@ -36,7 +40,23 @@ public class User implements UserDetails {
   @Enumerated(EnumType.STRING)
   private Role role;
 
-  @OneToMany(mappedBy = "user")
+  /**
+   * The `@OneToMany` annotation is used to define a one-to-many relationship
+   * in JPA. In this case, it defines a one-to-many relationship from the
+   * `User` entity to the `Token` entity. The `mappedBy` attribute is used to
+   * specify the name of the property in the `Token` entity that is used to
+   * establish the relationship.
+   *
+   * The `mappedBy` attribute is used to tell JPA that the relationship is
+   * "mapped by" the `user` property in the `Token` entity. This means that
+   * JPA will look for a property named `user` in the `Token` entity, and
+   * use that property to establish the relationship.
+   *
+   * In other words, this annotation tells JPA that the `User` entity has a
+   * one-to-many relationship with the `Token` entity, where the relationship
+   * is established by the `user` property in the `Token` entity.
+   */
+  @OneToMany(mappedBy = "user") 
   private List<Token> tokens;
 
   @Override

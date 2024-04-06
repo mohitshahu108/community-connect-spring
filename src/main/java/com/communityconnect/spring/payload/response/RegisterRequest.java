@@ -1,4 +1,4 @@
-package com.communityconnect.spring.payload;
+package com.communityconnect.spring.payload.response;
 
 import com.communityconnect.spring.model.Role;
 

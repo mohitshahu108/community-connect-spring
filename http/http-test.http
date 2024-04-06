@@ -7,7 +7,7 @@ Content-Type: application/json
   "lastname": "One",
   "email":  "communityconnect21@mail.com",
   "password": "password",
-  "role":  "ADMIN"
+  "role":  "VOLUNTEER"
 }
 
 ### Authenticate User

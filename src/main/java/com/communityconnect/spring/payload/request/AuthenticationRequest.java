@@ -1,4 +1,4 @@
-package com.communityconnect.spring.payload;
+package com.communityconnect.spring.payload.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

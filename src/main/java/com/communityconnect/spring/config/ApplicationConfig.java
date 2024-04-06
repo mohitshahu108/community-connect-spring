@@ -2,6 +2,8 @@ package com.communityconnect.spring.config;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -30,6 +32,11 @@ public class ApplicationConfig {
   }
 
   @Bean
+  public ModelMapper modelMapper() {
+    return new ModelMapper();
+  }
+
+  @Bean
   public AuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
     authProvider.setUserDetailsService(userDetailsService());
@@ -38,7 +45,7 @@ public class ApplicationConfig {
   }
 
   @Bean
-  public AuditorAware<Integer> auditorAware() {
+  public AuditorAware<Long> auditorAware() {
     return new ApplicationAuditAware();
   }
 

@@ -9,16 +9,14 @@ import com.communityconnect.spring.model.User;
 
 import java.util.Optional;
 
-public class ApplicationAuditAware implements AuditorAware<Integer> {
+public class ApplicationAuditAware implements AuditorAware<Long> {
     @Override
-    public Optional<Integer> getCurrentAuditor() {
+    public Optional<Long> getCurrentAuditor() {
         Authentication authentication =
                 SecurityContextHolder
                         .getContext()
                         .getAuthentication();
-        if (authentication == null ||
-            !authentication.isAuthenticated() ||
-                authentication instanceof AnonymousAuthenticationToken
+        if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken
         ) {
             return Optional.empty();
         }

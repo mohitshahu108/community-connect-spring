@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.communityconnect.spring.payload.ChangePasswordRequest;
+import com.communityconnect.spring.payload.request.ChangePasswordRequest;
 import com.communityconnect.spring.service.UserService;
 
 import java.security.Principal;
