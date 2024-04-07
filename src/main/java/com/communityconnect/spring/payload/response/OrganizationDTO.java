@@ -1,9 +1,7 @@
 package com.communityconnect.spring.payload.response;
 
-import java.util.Date;
-import java.util.Set;
-
-import com.communityconnect.spring.model.Skill;
+import com.communityconnect.spring.model.Project;
+import com.communityconnect.spring.model.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -11,23 +9,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class VolunteerDTO {
+public class OrganizationDTO {
+    private Long id;
 
-    private String firstname;
-    private String lastname;
-
-    private String phone;
+    private String name;
+    private String description;
     private String location;
-
-    private Date availabilityStartDate;
-
-    private Date availabilityEndDate;
-
-    private Set<Skill> skills;
-
+    private String website;
+    private Set<Project> projects;
     private Long userId;
 }

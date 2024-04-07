@@ -24,12 +24,14 @@ public class VolunteerController {
 
     @Autowired
     private VolunteerService volunteerService;
-    private ModelMapperService mapperService; 
+
+    @Autowired
+    private ModelMapperService modelMapperService; 
 
 
     @GetMapping
-    public ResponseEntity<List<Volunteer>> getAllVolunteers() {
-        return ResponseEntity.ok(volunteerService.getAllVolunteers());
+    public ResponseEntity<List<VolunteerDTO>> getAllVolunteers() {
+        return ResponseEntity.ok(modelMapperService.mapToList(volunteerService.getAllVolunteers(), VolunteerDTO.class));
     }
 
     // @PostMapping
@@ -38,13 +40,14 @@ public class VolunteerController {
     // }
 
     @GetMapping("/{id}")
-    public VolunteerDTO getVolunteerById(@PathVariable Long id) {
-        return mapperService.convertToDTO(volunteerService.getVolunteerById(id));
+    public ResponseEntity<VolunteerDTO> getVolunteerById(@PathVariable Long id) {
+        return ResponseEntity.ok(modelMapperService.map(volunteerService.getVolunteerById(id), VolunteerDTO.class));
     }
 
     @PutMapping("/{id}")
-    public Volunteer updateVolunteer(@PathVariable Long id, @RequestBody Volunteer volunteerDetails) {
-        return volunteerService.updateVolunteer(id, volunteerDetails);
+    public ResponseEntity<VolunteerDTO> updateVolunteer(@PathVariable Long id, @RequestBody Volunteer volunteerDetails) {
+        // return volunteerService.updateVolunteer(id, volunteerDetails);
+        return ResponseEntity.ok(modelMapperService.map(volunteerService.updateVolunteer(id, volunteerDetails), VolunteerDTO.class));
     }
 
     @DeleteMapping("/{id}")

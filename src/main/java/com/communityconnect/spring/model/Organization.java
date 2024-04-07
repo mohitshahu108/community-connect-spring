@@ -38,11 +38,6 @@ public class Organization {
     private String website;
 
 
-    // OneToMany annotation indicates that an Organization can have multiple Projects,
-    // and that each Project is associated with only one Organization.
-    // mappedBy attribute in OneToMany annotation is used to specify the field in the
-    // Project entity that serves as the owner side of the relationship.
-    // In other words, it indicates that the association is maintained in the Project entity.
     @OneToMany(mappedBy = "organization") 
     private Set<Project> projects;
 

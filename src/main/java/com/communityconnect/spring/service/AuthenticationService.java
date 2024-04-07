@@ -8,8 +8,8 @@ import com.communityconnect.spring.model.TokenType;
 import com.communityconnect.spring.model.User;
 import com.communityconnect.spring.model.Volunteer;
 import com.communityconnect.spring.payload.request.AuthenticationRequest;
+import com.communityconnect.spring.payload.request.RegisterRequest;
 import com.communityconnect.spring.payload.response.AuthenticationResponse;
-import com.communityconnect.spring.payload.response.RegisterRequest;
 import com.communityconnect.spring.repository.OrganizationRepository;
 import com.communityconnect.spring.repository.TokenRepository;
 import com.communityconnect.spring.repository.UserRepository;
@@ -63,6 +63,7 @@ public class AuthenticationService {
     } else if (request.getRole().equals(Role.ORGANIZATION)) {
       Organization organization = Organization.builder()
           .name(user.getFirstname() + user.getLastname())
+          .user(user)
           .build();
           organizationRepository.save(organization);
     }

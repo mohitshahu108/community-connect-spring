@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.communityconnect.spring.payload.request.AuthenticationRequest;
+import com.communityconnect.spring.payload.request.RegisterRequest;
 import com.communityconnect.spring.payload.response.AuthenticationResponse;
-import com.communityconnect.spring.payload.response.RegisterRequest;
 import com.communityconnect.spring.service.AuthenticationService;
 
 import java.io.IOException;

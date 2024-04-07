@@ -4,9 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.communityconnect.spring.model.Volunteer;
-import com.communityconnect.spring.payload.response.VolunteerDTO;
-
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -18,13 +15,14 @@ public class ModelMapperService {
     @Autowired
     private final ModelMapper modelMapper;
 
-    public VolunteerDTO convertToDTO(Volunteer volunteer) {
-        return modelMapper.map(volunteer, VolunteerDTO.class);
+    public <S, T> T map(S source, Class<T> targetType) {
+        return modelMapper.map(source, targetType);
     }
 
-    public List<VolunteerDTO> convertToDTOList(List<Volunteer> volunteers) {
-        return volunteers.stream()
-                .map(this::convertToDTO)
+    
+    public <S, T> List<T> mapToList(List<S> sources, Class<T> targetType) {
+        return sources.stream()
+                .map(source -> map(source, targetType))
                 .collect(Collectors.toList());
     }
 }

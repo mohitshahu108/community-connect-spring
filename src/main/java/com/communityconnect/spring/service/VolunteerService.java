@@ -14,9 +14,7 @@ public class VolunteerService {
     private VolunteerRepository volunteerRepository;
 
     public List<Volunteer> getAllVolunteers() {
-        List<Volunteer> list = volunteerRepository.findAll();
-        System.out.println("list" + list);
-        return list; 
+        return volunteerRepository.findAll();
     }
 
     public Volunteer getVolunteerById(Long id) {

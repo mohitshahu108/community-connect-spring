@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.communityconnect.spring.model.Project;
+import com.communityconnect.spring.payload.response.ProjectDTO;
 import com.communityconnect.spring.repository.ProjectRepository;
 
 @Service
@@ -14,11 +15,16 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
+
+    @Autowired
+    private ModelMapperService modelMapperService;
+
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
     }
 
-    public Project createProject(Project project) {
+    public Project createProject(ProjectDTO projectDTO) {
+        Project project = modelMapperService.map(projectDTO, Project.class);
         return projectRepository.save(project);
     }
 
