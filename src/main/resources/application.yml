@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/community_connect
-    username: community_connect
-    password: community_connect
+    url: jdbc:postgresql://${COMMUNITY_DATABASE_HOST}:${COMMUNITY_DATABASE_PORT}/${COMMUNITY_DATABASE_NAME}
+    username: ${COMMUNITY_DATABASE_USERNAME}
+    password: ${COMMUNITY_DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -17,7 +17,14 @@ spring:
 application:
   security:
     jwt:
-      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-      expiration: 86400000 # a day
+      secret-key: ${JWT_SECRET_KEY:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+      expiration: ${JWT_EXPIRATION:86400000} # a day
       refresh-token:
-        expiration: 604800000 # 7 days
+        expiration: ${REFRESH_TOKEN_EXPIRATION:604800000} # 7 days
+
+cors:
+  allowedOrigin: ${CORS_ALLOWED_ORIGIN}
+  allowedMethods: ${CORS_ALLOWED_METHODS}
+  allowedHeaders: ${CORS_ALLOWED_HEADERS}
+  allowedCredentials: ${CORS_ALLOWED_CREDENTIALS}
+  corsConfiguarion: ${CORS_CONFIGURATION}

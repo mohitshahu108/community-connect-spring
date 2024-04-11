@@ -1,6 +1,8 @@
 package com.communityconnect.spring.config;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -12,8 +14,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
-
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -40,9 +46,11 @@ public class SecurityConfiguration {
         private final LogoutHandler logoutHandler;
 
         @Bean
-        SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
                                 .csrf(AbstractHttpConfigurer::disable)
+                                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Updated CORS //
+                                                                                                   // configuration
                                 .authorizeHttpRequests(req -> req.requestMatchers(WHITE_LIST_URL)
                                                 .permitAll()
                                                 .anyRequest()
@@ -57,5 +65,31 @@ public class SecurityConfiguration {
                                                                                 .clearContext()));
 
                 return http.build();
+        }
+
+        @Value("${cors.allowedOrigin}")
+        private String allowedOrigin;
+
+        @Value("${cors.allowedHeaders}")
+        private String allowedHeaders;
+
+        @Value("${cors.allowedMethods}")
+        private String allowedMethods;
+
+        @Value("${cors.corsConfiguarion}")
+        private String corsConfiguration;
+
+        // instead we are using CorsConfiguration class
+        @Bean
+        public CorsConfigurationSource corsConfigurationSource() {
+                System.out.println("CorsConfigurationSource>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                CorsConfiguration configuration = new CorsConfiguration();
+                configuration.setAllowedOrigins(Arrays.asList(allowedOrigin)); // Adjust this to your needs
+                configuration.setAllowedMethods(Arrays.asList(allowedMethods));
+                configuration.setAllowedHeaders(Arrays.asList(allowedHeaders));
+                configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                source.registerCorsConfiguration(corsConfiguration, configuration);
+                return source;
         }
 }
