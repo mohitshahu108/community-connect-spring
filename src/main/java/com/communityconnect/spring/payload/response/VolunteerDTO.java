@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VolunteerDTO {
-
+    private Long id;
     private String firstname;
     private String lastname;
 

@@ -45,6 +45,17 @@ public class OrganizationController {
                 .ok(modelMapperService.map(organizationService.getOrganizationById(id), OrganizationDTO.class));
     }
 
+    
+    @GetMapping("/byUserId/{userId}")
+    public ResponseEntity<OrganizationDTO> getOrganizationByUserId(@PathVariable Long userId) {
+        Organization organization = organizationService.getOrganizationByUserId(userId);
+        if (organization == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(modelMapperService.map(organization, OrganizationDTO.class));
+    }
+
+
     @PutMapping("/{id}")
     public ResponseEntity<OrganizationDTO> updateOrganization(@PathVariable Long id, @RequestBody OrganizationDTO organizationDetails) {
         Organization organization = modelMapperService.map(organizationDetails, Organization.class);

@@ -45,4 +45,10 @@ public class OrganizationService {
                 .orElseThrow(() -> new RuntimeException("Organization not found with id" + id));
         organizationRepository.delete(organization);
     }
+
+    public Organization getOrganizationByUserId(Long userId) {
+        return organizationRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Organization not found for user with id " + userId));
+    }
+
 }
