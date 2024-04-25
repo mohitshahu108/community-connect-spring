@@ -1,5 +1,7 @@
 package com.communityconnect.spring.payload.response;
 
+import com.communityconnect.spring.model.Skill;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,8 +22,7 @@ public class ProjectDTO {
     private String status;
 
     private Long organizationId;  // Include only the organization ID
-
-    private Long[] skillIds;  // Use an array of Long for skill IDs
+    private Skill[] skills;  // Use an array of Long for skill IDs
 
     private Long[] volunteerIds;  // Use an array of Long for volunteer IDs
 }

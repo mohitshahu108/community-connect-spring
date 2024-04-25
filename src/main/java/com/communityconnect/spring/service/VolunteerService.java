@@ -47,4 +47,9 @@ public class VolunteerService {
 
         volunteerRepository.delete(volunteer);
     }
+
+    public Volunteer getVolunteerByUserId(Long userId) {
+        return volunteerRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Volunteer not found for user with id " + userId));
+    }
 }
