@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.communityconnect.spring.model.User;
 import com.communityconnect.spring.payload.request.ChangePasswordRequest;
 import com.communityconnect.spring.payload.response.UserDTO;
 import com.communityconnect.spring.service.ModelMapperService;

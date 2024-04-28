@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.communityconnect.spring.model.Project;
-import com.communityconnect.spring.payload.response.ProjectDTO;
+import com.communityconnect.spring.payload.projects.request.Apply;
+import com.communityconnect.spring.payload.request.ProjectDTORequest;
+import com.communityconnect.spring.payload.response.ProjectDTOResponse;
 import com.communityconnect.spring.service.ModelMapperService;
 import com.communityconnect.spring.service.ProjectService;
 
@@ -29,29 +31,34 @@ public class ProjectController {
     private ModelMapperService modelMapperService;
 
     @GetMapping
-    public ResponseEntity<List<ProjectDTO>> getAllProjects() {
+    public ResponseEntity<List<ProjectDTOResponse>> getAllProjects() {
         List<Project> projects = projectService.getAllProjects();
-        List<ProjectDTO> projectDTOs = modelMapperService.mapToList(projects, ProjectDTO.class);
+        List<ProjectDTOResponse> projectDTOs = modelMapperService.mapToList(projects, ProjectDTOResponse.class);
         return ResponseEntity.ok(projectDTOs);
     }
 
     @PostMapping
-    public ResponseEntity<ProjectDTO> createProject(@RequestBody ProjectDTO projectDTO) {
-        return ResponseEntity.ok(modelMapperService.map(projectService.createProject(projectDTO), ProjectDTO.class));
+    public ResponseEntity<ProjectDTOResponse> createProject(@RequestBody ProjectDTORequest projectDTO) {
+        return ResponseEntity.ok(modelMapperService.map(projectService.createProject(projectDTO), ProjectDTOResponse.class));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProjectDTO> getProjectById(@PathVariable Long id) {
-        return ResponseEntity.ok(modelMapperService.map(projectService.getProjectById(id), ProjectDTO.class));
+    public ResponseEntity<ProjectDTOResponse> getProjectById(@PathVariable Long id) {
+        return ResponseEntity.ok(modelMapperService.map(projectService.getProjectById(id), ProjectDTOResponse.class));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProjectDTO> updateProject(@PathVariable Long id, @RequestBody ProjectDTO projectDetails) {
-        return ResponseEntity.ok(modelMapperService.map(projectService.updateProject(id, modelMapperService.map(projectDetails, Project.class)), ProjectDTO.class));
+    public ResponseEntity<ProjectDTOResponse> updateProject(@PathVariable Long id, @RequestBody ProjectDTORequest projectDetails) {
+        return ResponseEntity.ok(modelMapperService.map(projectService.updateProject(id, modelMapperService.map(projectDetails, Project.class)), ProjectDTOResponse.class));
     }
 
     @DeleteMapping("/{id}")
     public void deleteProject(@PathVariable Long id) {
         projectService.deleteProject(id);
+    }
+
+    @PutMapping("/{id}/apply")
+    public ResponseEntity<ProjectDTOResponse> apply(@PathVariable Long id, @RequestBody Apply apply) { 
+        return ResponseEntity.ok(modelMapperService.map(projectService.apply(apply), ProjectDTOResponse.class));
     }
 }

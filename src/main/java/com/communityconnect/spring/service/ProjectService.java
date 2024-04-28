@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.communityconnect.spring.model.Project;
-import com.communityconnect.spring.payload.response.ProjectDTO;
+import com.communityconnect.spring.model.Volunteer;
+import com.communityconnect.spring.payload.projects.request.Apply;
+import com.communityconnect.spring.payload.request.ProjectDTORequest;
 import com.communityconnect.spring.repository.ProjectRepository;
+import com.communityconnect.spring.repository.VolunteerRepository;
 
 @Service
 public class ProjectService {
@@ -19,11 +22,14 @@ public class ProjectService {
     @Autowired
     private ModelMapperService modelMapperService;
 
+
+    private VolunteerRepository volunteerRepository;
+
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
     }
 
-    public Project createProject(ProjectDTO projectDTO) {
+    public Project createProject(ProjectDTORequest projectDTO) {
         Project project = modelMapperService.map(projectDTO, Project.class);
         return projectRepository.save(project);
     }
@@ -56,4 +62,16 @@ public class ProjectService {
 
         projectRepository.delete(project);
     }
+
+    public Project apply(Apply apply) {
+        Project project = projectRepository.findById(apply.getProjectId())
+                .orElseThrow(() -> new RuntimeException("Project not found with id " + apply.getProjectId()));
+        Volunteer volunteer = volunteerRepository.findById(apply.getVolunteerId())
+                .orElseThrow(() -> new RuntimeException("Volunteer not found with id " + apply.getVolunteerId()));
+
+        project.getVolunteers().add(volunteer);
+
+        return projectRepository.save(project);
+    }
+
 }
