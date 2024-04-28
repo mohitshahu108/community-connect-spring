@@ -2,13 +2,13 @@
 package com.communityconnect.spring.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -56,4 +56,6 @@ public class Volunteer {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "volunteer")
+    private Set<Asset> assets;
 }

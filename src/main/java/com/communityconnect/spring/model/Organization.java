@@ -3,12 +3,10 @@ package com.communityconnect.spring.model;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -37,12 +35,13 @@ public class Organization {
     private String location;
     private String website;
 
-
-    @OneToMany(mappedBy = "organization") 
+    @OneToMany(mappedBy = "organization")
     private Set<Project> projects;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "organization")
+    private Set<Asset> assets;
 }
