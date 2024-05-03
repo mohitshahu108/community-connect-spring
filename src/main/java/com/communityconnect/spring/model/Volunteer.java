@@ -1,6 +1,7 @@
 
 package com.communityconnect.spring.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -52,10 +53,12 @@ public class Volunteer {
     @JoinTable(name = "VolunteerSkills", joinColumns = @JoinColumn(name = "volunteer_id"), inverseJoinColumns = @JoinColumn(name = "skill_id"))
     private Set<Skill> skills;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_photo_id")
+    private Asset profilePhoto;
+
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "volunteer")
-    private Set<Asset> assets;
 }

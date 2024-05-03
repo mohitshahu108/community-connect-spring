@@ -16,10 +16,9 @@ public class AssetDTO {
     private String assetContentType;
     private Integer assetFileSize;
     private LocalDateTime assetFileUpdatedAt;
-
     private Integer assetableId;
     private String assetableType;
-
+    private String s3Url;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;

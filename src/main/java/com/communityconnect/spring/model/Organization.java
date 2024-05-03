@@ -2,6 +2,7 @@ package com.communityconnect.spring.model;
 
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,6 +43,7 @@ public class Organization {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "organization")
-    private Set<Asset> assets;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_photo_id")
+    private Asset profilePhoto;
 }

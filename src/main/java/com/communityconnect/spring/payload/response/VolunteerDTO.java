@@ -30,4 +30,5 @@ public class VolunteerDTO {
     private Set<Skill> skills;
 
     private Long userId;
+    private AssetDTO profilePhoto;
 }

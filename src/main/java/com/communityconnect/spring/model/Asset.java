@@ -1,8 +1,12 @@
 package com.communityconnect.spring.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import lombok.Setter;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +19,10 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @Entity
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 @Table(name = "assets")
 public class Asset {
 
@@ -22,22 +30,20 @@ public class Asset {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 500)
     private String assetFileName;
 
-    private String assetContentType;
-
-    private Integer assetFileSize;
-
-    private LocalDateTime assetFileUpdatedAt;
-
-    private Integer assetableId;
-
+    private Long assetableId;
     private String assetableType;
 
+    private String assetContentType;
+    private Long assetFileSize;
+
+    @Column(length = 500)
+    private String s3Url;
+
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
-
     private LocalDateTime deletedAt;
 
     @PrePersist
