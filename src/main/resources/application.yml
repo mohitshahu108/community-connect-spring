@@ -28,19 +28,13 @@ application:
         expiration: ${REFRESH_TOKEN_EXPIRATION:604800000} # 7 days
 
 cors:
-  allowedOrigin: ${CORS_ALLOWED_ORIGIN}
-  allowedMethods: ${CORS_ALLOWED_METHODS}
-  allowedHeaders: ${CORS_ALLOWED_HEADERS}
-  allowedCredentials: ${CORS_ALLOWED_CREDENTIALS}
-  corsConfiguarion: ${CORS_CONFIGURATION}
-
+  allowedOrigin: "*"
+  allowedMethods: "*"
+  allowedHeaders: "*"
+  allowedCredentials: "false"
+  corsConfiguarion: "/**"
 
 cloud:
   aws:
-    credentials:
-      accessKey: ${CLOUD_AWS_CREDENTIALS_ACCESS_KEY}
-      secretKey: ${CLOUD_AWS_CREDENTIALS_SECRET_KEY}
-    region:
-      static: ${CLOUD_AWS_REGION_STATIC}
     s3:
-      bucket: ${CLOUD_AWS_S3_BUCKET}
+      bucket: ${BUCKET_NAME}

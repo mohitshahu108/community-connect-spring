@@ -25,6 +25,7 @@ public class S3Service {
         private S3Client s3Client;
 
         public void uploadFileToS3(String key, MultipartFile file) throws IOException {
+                System.out.println("bucket" + bucket);
                 PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                                 .bucket(bucket) // Assuming 'bucket' is a class variable holding your bucket name
                                 .key(key)

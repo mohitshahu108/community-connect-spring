@@ -16,24 +16,13 @@ import software.amazon.awssdk.services.s3.S3Client;
 @Configuration
 public class S3Config {
 
-    @Value("${cloud.aws.credentials.accessKey}")
-    private String accessKey;
-
-    @Value("${cloud.aws.credentials.secretKey}")
-    private String secretKey;
-
-    @Value("${cloud.aws.region.static}")
-    private String regionStatic;
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
-
     @Bean
     S3Client s3Client() {
         try {
             S3Client s3Client = S3Client.builder()
                     .region(Region.AP_SOUTH_1)
-                    .endpointOverride(new URI("https://s3.ap-south-1.amazonaws.com")) // This line can throw                                              // URISyntaxException
+                    .endpointOverride(new URI("https://s3.ap-south-1.amazonaws.com")) // This line can throw //
+                                                                                      // URISyntaxException
                     .build();
             return s3Client;
         } catch (SdkClientException | URISyntaxException e) { // Add URISyntaxException to the catch clause

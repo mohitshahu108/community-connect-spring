@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.communityconnect.spring.payload.request.AuthenticationRequest;
 import com.communityconnect.spring.payload.request.RegisterRequest;
 import com.communityconnect.spring.payload.response.AuthenticationResponse;
+import com.communityconnect.spring.payload.response.DemoDTO;
 import com.communityconnect.spring.service.AuthenticationService;
 
 import java.io.IOException;
@@ -44,5 +46,10 @@ public class AuthenticationController {
     service.refreshToken(request, response);
   }
 
+  @GetMapping("/test")
+  public DemoDTO test(){
+    DemoDTO demoDTO = DemoDTO.builder().hello("hello from lambda").build();
+    return demoDTO;
+  }
 
 }
