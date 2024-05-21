@@ -18,6 +18,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -41,38 +43,41 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   public AuthenticationResponse register(RegisterRequest request) {
-    var user = User.builder()
-        .firstname(request.getFirstname())
-        .lastname(request.getLastname())
-        .email(request.getEmail())
-        .password(passwordEncoder.encode(request.getPassword()))
-        .role(request.getRole())
-        .build();
-    var savedUser = repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
-    saveUserToken(savedUser, jwtToken);
-    
-    if (request.getRole().equals(Role.VOLUNTEER)) {
-      Volunteer volunteer = Volunteer.builder()
+    try {
+      var user = User.builder()
           .firstname(request.getFirstname())
           .lastname(request.getLastname())
-          .user(user)
+          .email(request.getEmail())
+          .password(passwordEncoder.encode(request.getPassword()))
+          .role(request.getRole())
           .build();
-      volunteerRepository.save(volunteer);
-    } else if (request.getRole().equals(Role.ORGANIZATION)) {
-      Organization organization = Organization.builder()
-          .name(user.getFirstname() + user.getLastname())
-          .user(user)
-          .build();
-          organizationRepository.save(organization);
-    }
-    
+      var savedUser = repository.save(user);
+      var jwtToken = jwtService.generateToken(user);
+      var refreshToken = jwtService.generateRefreshToken(user);
+      saveUserToken(savedUser, jwtToken);
 
-    return AuthenticationResponse.builder()
-        .accessToken(jwtToken)
-            .refreshToken(refreshToken)
-        .build();
+      if (request.getRole().equals(Role.VOLUNTEER)) {
+        Volunteer volunteer = Volunteer.builder()
+            .firstname(request.getFirstname())
+            .lastname(request.getLastname())
+            .user(user)
+            .build();
+        volunteerRepository.save(volunteer);
+      } else if (request.getRole().equals(Role.ORGANIZATION)) {
+        Organization organization = Organization.builder()
+            .name(user.getFirstname() + user.getLastname())
+            .user(user)
+            .build();
+        organizationRepository.save(organization);
+      }
+
+      return AuthenticationResponse.builder()
+          .accessToken(jwtToken)
+          .refreshToken(refreshToken)
+          .build();
+    } catch (DuplicateKeyException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {

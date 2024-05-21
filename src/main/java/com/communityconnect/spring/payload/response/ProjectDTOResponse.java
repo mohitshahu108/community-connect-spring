@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProjectDTOResponse {
-
     private Long id;
 
     private String name;
@@ -22,6 +21,6 @@ public class ProjectDTOResponse {
     private String status;
     private OrganizationDTO organization;
     private Skill[] skills;  // Use an array of Long for skill IDs
-
-    private Long[] volunteerIds;  // Use an array of Long for volunteer IDs
+    private ApplicationResponse[] applications;
+    private VolunteerLKDTO[] volunteers;  // Use an array of Long for volunteer IDs
 }

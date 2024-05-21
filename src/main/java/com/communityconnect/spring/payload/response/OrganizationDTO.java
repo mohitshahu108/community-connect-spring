@@ -24,4 +24,5 @@ public class OrganizationDTO {
     private String website;
     private Set<Project> projects;
     private Long userId;
+    private AssetDTO profilePhoto;
 }
