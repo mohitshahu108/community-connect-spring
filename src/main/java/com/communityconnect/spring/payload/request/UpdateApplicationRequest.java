@@ -11,9 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApplicationRequest {
-    private Long id;
-    private Long projectId;
-    private Long volunteerId;
+public class UpdateApplicationRequest {
     private ApplicationStatuses status;
 }

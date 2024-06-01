@@ -1,5 +1,7 @@
 package com.communityconnect.spring.service;
 
+import java.util.List;
+
 import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import com.communityconnect.spring.model.Application;
 import com.communityconnect.spring.model.Project;
 import com.communityconnect.spring.model.Volunteer;
 import com.communityconnect.spring.payload.request.ApplicationRequest;
+import com.communityconnect.spring.payload.request.UpdateApplicationRequest;
 import com.communityconnect.spring.repository.ApplicationRepository;
 import com.communityconnect.spring.repository.ProjectRepository;
 import com.communityconnect.spring.repository.VolunteerRepository;
@@ -27,16 +30,18 @@ public class ApplicationService {
     @Autowired
     private VolunteerRepository volunteerRepository;
 
-    @Transactional
-    public Application create(Application applicationReq) {
-        try {
-            Application application = applicationRepository.save(applicationReq);
-            Project project = projectRepository.findById(application.getProject().getId())
-                    .orElseThrow(() -> new RuntimeException(
-                            "Project with id " + application.getProject().getId() + " not found"));
-            project.getApplications().add(application);
-            projectRepository.save(project);
+    @Autowired
+    private ModelMapperService modelMapperService; 
 
+    @Transactional
+    public Application create(ApplicationRequest applicationReq) {
+        try {
+            Volunteer volunteer = volunteerRepository.findById(applicationReq.getVolunteerId())
+                    .orElseThrow(() -> new RuntimeException(
+                            "Volunteer with id " + applicationReq.getVolunteerId() + " not found"));
+            Application application = applicationRepository.save(modelMapperService.map(applicationReq, Application.class));
+            application.setVolunteer(volunteer);
+            applicationRepository.save(application);
             return application;
         } catch (Exception e) {
             throw new RuntimeException("Error while create application");
@@ -44,20 +49,20 @@ public class ApplicationService {
     }
 
     @Transactional
-    public Application updateApplication(Long id, Application app) {
+    public Application updateApplication(Long id, UpdateApplicationRequest app) {
         try {
             Application application = applicationRepository.findById(id).orElseThrow();
             application.setStatus(app.getStatus());
 
             if (app.getStatus() == ApplicationStatuses.APPROVED) {
 
-                Project project = projectRepository.findById(app.getProject().getId())
+                Project project = projectRepository.findById(application.getProjectId())
                         .orElseThrow(() -> new RuntimeException(
-                                "Project with id " + app.getProject().getId() + " not found"));
+                                "Project with id " + application.getProjectId() + " not found"));
 
-                Volunteer volunteer = volunteerRepository.findById(app.getVolunteerId())
+                Volunteer volunteer = volunteerRepository.findById(application.getVolunteer().getId())
                         .orElseThrow(() -> new RuntimeException(
-                                "Volunteer with id " + app.getId() + "not found"));
+                                "Volunteer with id " + application.getVolunteer().getId() + "not found"));
 
                 project.getVolunteers().add(volunteer);
                 projectRepository.save(project);
@@ -65,7 +70,7 @@ public class ApplicationService {
 
             return applicationRepository.save(application);
         } catch (Exception e) {
-            throw new RuntimeException("Error while updating application");
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

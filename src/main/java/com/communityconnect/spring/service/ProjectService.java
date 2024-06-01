@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.communityconnect.spring.Application;
 import com.communityconnect.spring.model.Project;
 import com.communityconnect.spring.model.Volunteer;
 import com.communityconnect.spring.payload.projects.request.Apply;
@@ -35,8 +36,10 @@ public class ProjectService {
     }
 
     public Project getProjectById(Long id) {
-        return projectRepository.findById(id)
+        Project project = projectRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Project not found with id " + id));
+        
+        return project;
     }
 
     public Project updateProject(Long id, Project projectDetails) {
@@ -72,6 +75,10 @@ public class ProjectService {
         project.getVolunteers().add(volunteer);
 
         return projectRepository.save(project);
+    }
+
+    public List<Project> getAllProjectsByOrganizationId(Long organizationId) {
+        return projectRepository.findByOrganizationId(organizationId);
     }
 
 }

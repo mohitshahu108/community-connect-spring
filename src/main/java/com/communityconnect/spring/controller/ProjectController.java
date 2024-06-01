@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.communityconnect.spring.model.Project;
@@ -31,8 +32,15 @@ public class ProjectController {
     private ModelMapperService modelMapperService;
 
     @GetMapping
-    public ResponseEntity<List<ProjectDTOResponse>> getAllProjects() {
-        List<Project> projects = projectService.getAllProjects();
+    public ResponseEntity<List<ProjectDTOResponse>> getAllProjects(
+        @RequestParam(value = "organizationId", required = false) Long organizationId
+    ) {
+        List<Project> projects = null;
+        if (organizationId != null) {
+            projects = projectService.getAllProjectsByOrganizationId(organizationId);
+        } else {
+            projects = projectService.getAllProjects();
+        }
         List<ProjectDTOResponse> projectDTOs = modelMapperService.mapToList(projects, ProjectDTOResponse.class);
         return ResponseEntity.ok(projectDTOs);
     }

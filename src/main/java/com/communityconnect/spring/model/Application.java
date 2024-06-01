@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +16,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
 import com.communityconnect.spring.enums.ApplicationStatuses;
@@ -33,11 +36,14 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id", nullable = false)
-    private Project project;
+    @Column(name = "project_id", nullable = false)
+    private Long projectId;
 
-    private Long volunteerId;
+    @ManyToOne
+    @JoinColumn(name = "volunteer_id", referencedColumnName = "id", nullable = false)
+    @NotNull
+    private Volunteer volunteer;
+
     private ApplicationStatuses status;
 
     private LocalDateTime createdAt;

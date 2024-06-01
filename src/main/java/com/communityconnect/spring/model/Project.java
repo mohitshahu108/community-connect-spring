@@ -2,6 +2,7 @@ package com.communityconnect.spring.model;
 
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -48,7 +49,7 @@ public class Project {
     @JoinTable(name = "ProjectVolunteers", joinColumns = @JoinColumn(name = "project_id"), inverseJoinColumns = @JoinColumn(name = "volunteer_id"))
     private Set<Volunteer> volunteers; // many volunteers can working same project
 
-    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Application.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "project_id", referencedColumnName = "id" )
     private Set<Application> applications; // many applications can be submitted to same project
-
 }
